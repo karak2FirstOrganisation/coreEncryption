@@ -25,7 +25,7 @@ public class ConsoleEncrypter {
 		EncryptedData et = aes.Encrypt(password, message);
 		System.out.println(et.toSerializedString());
 		
-		password = "qwe123YXC+";
+		//password = "qwe123YXC+";
 		//password = "wrong";
 		
 		String decrypted = aes.Decrypt(password, et);
