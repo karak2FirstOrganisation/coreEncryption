@@ -6,6 +6,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -20,15 +22,19 @@ public class ConsoleEncrypter {
 		String password = "qwe123YXC++"; 
 		String message = "abcédééeffgéé így néz ki egy ABC! ŐŐÚÚŰŰÁ-.¤űá'§Mi a lóf¸s¨¨¨¨ẗ írok én itt??ÍÍ01232";
 		
+		Secret secret = Secret.CreateForNewEncryption(password);
 		AesPasswordEncypter aes = new AesPasswordEncypter();
 		
-		EncryptedData et = aes.Encrypt(password, message);
-		System.out.println(et.toSerializedString());
+		EncryptedData et = aes.Encrypt(secret, message);
+		Map<String, String> map = new HashMap<String,String>();
+		et.toSerializedMap(map);
+		map.put("PasswordReminder", "kisatol2ig");
+		System.out.println(MapToTextSerializer.Serialize(map));
 		
 		//password = "qwe123YXC+";
 		//password = "wrong";
 		
-		String decrypted = aes.Decrypt(password, et);
+		String decrypted = aes.Decrypt(secret, et);
 		
 		System.out.println(decrypted);
 	}

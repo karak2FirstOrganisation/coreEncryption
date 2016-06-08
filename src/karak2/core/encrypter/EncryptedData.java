@@ -2,10 +2,7 @@ package karak2.core.encrypter;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.sun.media.sound.InvalidDataException;
+import java.util.Map;
 
 public class EncryptedData {
 	
@@ -67,43 +64,28 @@ public class EncryptedData {
 		return toBase64String(this.iv);
 	}
 	
-	private static final String SER_SerializedFormatVersionId = "SerializedFormatVersionId";
-	private static final String SER_SaltBase64 = "SaltBase64";
-	private static final String SER_IvBase64 = "IvBase64";
-	private static final String SER_EncryptedBase64 = "EncryptedBase64";
-	private static final String SER_SeparatorToken = ";"; // not special character neither in Base64 nor in Regex nor in GUID nor in field names
+	private static final String SER_SerializedFormatVersionId = "EncryptedDataVersionId";
+	private static final String SER_SaltBase64 = "EncryptedDataSaltBase64";
+	private static final String SER_IvBase64 = "EncryptedDataIvBase64";
+	private static final String SER_EncryptedBase64 = "EncryptedDataBytesBase64";
 	
-	public String toSerializedString() throws UnsupportedEncodingException
+	public void toSerializedMap(Map<String, String> map) throws UnsupportedEncodingException
 	{
-		return  SER_SeparatorToken + SER_SerializedFormatVersionId + SER_SeparatorToken + serializedFormatVersionId + 
-				SER_SeparatorToken + SER_SaltBase64 + SER_SeparatorToken + getSaltBase64String() +
-				SER_SeparatorToken + SER_IvBase64 + SER_SeparatorToken + getIvBase64String() +
-				SER_SeparatorToken + SER_EncryptedBase64 + SER_SeparatorToken + getEncryptedBase64String() + 
-				SER_SeparatorToken; // closing token is important as much as the opening
-	}
-	
-	private static String getField(String fieldName, String input)
-	{
-		String patStr = SER_SeparatorToken + fieldName + SER_SeparatorToken + "([^" + SER_SeparatorToken  + "]*)" + SER_SeparatorToken; // regex: ;filedName;([^;]*); 
-		Pattern p = Pattern.compile(patStr);
-		Matcher m = p.matcher(input);
-		if (m.find())
-		{
-			String result = m.group(1);
-			return result;
-		}
-		return "";
+		map.put(SER_SerializedFormatVersionId, serializedFormatVersionId);
+		map.put(SER_SaltBase64, getSaltBase64String());
+		map.put(SER_IvBase64 , getIvBase64String());
+		map.put(SER_EncryptedBase64 , getEncryptedBase64String());
 	}
 		
-	public EncryptedData fromSerializedString(String serializedString) throws InvalidDataException, UnsupportedEncodingException
+	public EncryptedData fromSerializedMap(Map<String, String> map) throws UnsupportedEncodingException
 	{
-		String versionId = getField(SER_SerializedFormatVersionId, serializedString);
-		String saltBase64 = getField(SER_SaltBase64, serializedString);
-		String ivBase64 = getField(SER_IvBase64, serializedString);
-		String encyptedBytesBase64 = getField(SER_EncryptedBase64, serializedString);
+		String versionId = map.get(SER_SerializedFormatVersionId);
+		String saltBase64 = map.get(SER_SaltBase64);
+		String ivBase64 = map.get(SER_IvBase64);
+		String encyptedBytesBase64 = map.get(SER_EncryptedBase64);
 		if (versionId != serializedFormatVersionId)
 		{
-			throw new InvalidDataException("Unknown version id. Parsing not possible. Received version id: " + versionId);
+			throw new IllegalArgumentException("Unknown version id. Parsing not possible. Received version id: " + versionId);
 		}
 		return new EncryptedData(saltBase64, ivBase64, encyptedBytesBase64);
 	}
