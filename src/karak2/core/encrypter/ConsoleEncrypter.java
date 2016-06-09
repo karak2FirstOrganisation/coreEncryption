@@ -8,6 +8,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -20,7 +21,7 @@ public class ConsoleEncrypter {
 		//System.out.print("hoy");
 						
 		String password = "qwe123YXC++"; 
-		String message = "abcédééeffgéé így néz ki egy ABC! ŐŐÚÚŰŰÁ-.¤űá'§Mi a lóf¸s¨¨¨¨ẗ írok én itt??ÍÍ01232";
+		String message = "abcédééeffgéé így néz ki\n\n egy ABC! ŐŐÚÚŰŰÁ-.¤űá'§Mi a lóf¸s¨¨¨¨ẗ írok én itt??ÍÍ01232";
 		
 		Secret secret = Secret.CreateForNewEncryption(password);
 		AesPasswordEncypter aes = new AesPasswordEncypter();
@@ -37,6 +38,7 @@ public class ConsoleEncrypter {
 		String decrypted = aes.Decrypt(secret, et);
 		
 		System.out.println(decrypted);
+		System.out.println(UUID.randomUUID());
 	}
 }
 
