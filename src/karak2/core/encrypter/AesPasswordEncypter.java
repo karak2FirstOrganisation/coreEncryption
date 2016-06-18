@@ -14,7 +14,6 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
-import javax.management.InvalidAttributeValueException;
 
 
 public class AesPasswordEncypter {
@@ -22,7 +21,7 @@ public class AesPasswordEncypter {
 	private static final UUID versionId = UUID.fromString("6c928589-d710-4b05-b82f-45c7b1704891"); // change in case of breaking change
 	
 	public static String Decrypt(Secret secret, EncryptedData ed)
-			throws InvalidAttributeValueException, NoSuchAlgorithmException,
+			throws NoSuchAlgorithmException,
 			InvalidKeySpecException, UnsupportedEncodingException,
 			InvalidKeyException, NoSuchPaddingException,
 			InvalidAlgorithmParameterException, IllegalBlockSizeException,
@@ -43,7 +42,7 @@ public class AesPasswordEncypter {
 			throws NoSuchAlgorithmException, NoSuchPaddingException,
 			InvalidKeyException, InvalidParameterSpecException,
 			IllegalBlockSizeException, BadPaddingException,
-			UnsupportedEncodingException, InvalidAttributeValueException,
+			UnsupportedEncodingException,
 			InvalidKeySpecException {
 
 		Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");

@@ -13,7 +13,6 @@ import java.util.UUID;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.management.InvalidAttributeValueException;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -30,15 +29,15 @@ public class AesPasswordEncypterTest {
 	 private static Secret emptySecret;
 	
 	 @BeforeClass
-     public static void oneTimeSetUp() throws InvalidAttributeValueException, NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException {
+     public static void oneTimeSetUp() throws NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException {
 		 simpleSecret = Secret.CreateForNewEncryption("pass");
-		 complexSecret = Secret.CreateForNewEncryption("€Í„ŧ–ᚠ”äđĐ÷×[0123456789abcdef");
+		 complexSecret = Secret.CreateForNewEncryption("â‚¬Ã�â€žÅ§â€“áš â€�Ã¤Ä‘Ä�Ã·Ã—[0123456789abcdef");
 		 emptySecret = Secret.CreateForNewEncryption("");
      }
 
 	
 	@Test
-	public void testEncrypt_simple_pass_and_text() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException 
+	public void testEncrypt_simple_pass_and_text() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException 
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		String result = AesPasswordEncypter.Decrypt(simpleSecret, ed);
@@ -47,9 +46,9 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test
-	public void testEncrypt_long_complex_pass_and_text() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testEncrypt_long_complex_pass_and_text() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
-		String complexPlainText = "0123456789abcdef¬~¬~ˇ^˘°˛`˙'˝\"¸|Ä¶ŧ–ᚠ€Í„”÷×äđĐ[]ħíł𐏉Ł$ß¤<>#&@{}<;>ණ*ÚŐŰÁ_:?ÍYÓÜÖ)ⱗ𐌺ϟਐ";
+		String complexPlainText = "0123456789abcdefÂ¬~Â¬~Ë‡^Ë˜Â°Ë›`Ë™'Ë�\"Â¸|Ã„Â¶Å§â€“áš â‚¬Ã�â€žâ€�Ã·Ã—Ã¤Ä‘Ä�[]Ä§Ã­Å‚ð��‰Å�$ÃŸÂ¤<>#&@{}<;>à¶«*ÃšÅ�Å°Ã�_:?Ã�YÃ“ÃœÃ–)â±—ð�ŒºÏŸà¨�";
 		EncryptedData ed = AesPasswordEncypter.Encrypt(complexSecret, complexPlainText);
 		String result = AesPasswordEncypter.Decrypt(complexSecret, ed);
 		Assert.assertNotEquals(complexPlainText, ed.getEncryptedBase64String());
@@ -57,7 +56,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test
-	public void testEncrypt_empty_input_produces_valid_encription() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testEncrypt_empty_input_produces_valid_encription() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		String complexPlainText = "";
 		EncryptedData ed = AesPasswordEncypter.Encrypt(complexSecret, complexPlainText);
@@ -67,24 +66,24 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testEncrypt_null_input_produces_exception() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testEncrypt_null_input_produces_exception() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		String complexPlainText = null;
 		AesPasswordEncypter.Encrypt(complexSecret, complexPlainText);
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testEncrypt_null_pass_produces_exception() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testEncrypt_null_pass_produces_exception() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		Secret nullSecret = Secret.CreateForNewEncryption(null);
-		String complexPlainText = "0123456789abcdef¬~¬~ˇ^˘°˛`˙'˝\"¸|Ä¶ŧ–ᚠ€Í„”÷×äđĐ[]ħíł𐏉Ł$ß¤<>#&@{}<;>ණ*ÚŐŰÁ_:?ÍYÓÜÖ)ⱗ𐌺ϟਐ";
+		String complexPlainText = "0123456789abcdefÂ¬~Â¬~Ë‡^Ë˜Â°Ë›`Ë™'Ë�\"Â¸|Ã„Â¶Å§â€“áš â‚¬Ã�â€žâ€�Ã·Ã—Ã¤Ä‘Ä�[]Ä§Ã­Å‚ð��‰Å�$ÃŸÂ¤<>#&@{}<;>à¶«*ÃšÅ�Å°Ã�_:?Ã�YÃ“ÃœÃ–)â±—ð�ŒºÏŸà¨�";
 		AesPasswordEncypter.Encrypt(nullSecret, complexPlainText);
 	}
 	
 	@Test
-	public void testEncrypt_pass_can_be_empty() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testEncrypt_pass_can_be_empty() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
-		String complexPlainText = "0123456789abcdef¬~¬~ˇ^˘°˛`˙'˝\"¸|Ä¶ŧ–ᚠ€Í„”÷×äđĐ[]ħíł𐏉Ł$ß¤<>#&@{}<;>ණ*ÚŐŰÁ_:?ÍYÓÜÖ)ⱗ𐌺ϟਐ";
+		String complexPlainText = "0123456789abcdefÂ¬~Â¬~Ë‡^Ë˜Â°Ë›`Ë™'Ë�\"Â¸|Ã„Â¶Å§â€“áš â‚¬Ã�â€žâ€�Ã·Ã—Ã¤Ä‘Ä�[]Ä§Ã­Å‚ð��‰Å�$ÃŸÂ¤<>#&@{}<;>à¶«*ÃšÅ�Å°Ã�_:?Ã�YÃ“ÃœÃ–)â±—ð�ŒºÏŸà¨�";
 		EncryptedData ed = AesPasswordEncypter.Encrypt(emptySecret, complexPlainText);
 		String result = AesPasswordEncypter.Decrypt(emptySecret, ed);
 		Assert.assertNotEquals(complexPlainText, ed.getEncryptedBase64String());
@@ -92,7 +91,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testDecrypted_data_salt_cannot_be_less_than_8_byte() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_salt_cannot_be_less_than_8_byte() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		EncryptedData ed2 = new EncryptedData(new byte[]{11}, ed.getIv(), ed.getEcyptedBytes(), ed.getEncryptorId());
@@ -103,7 +102,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testDecrypted_data_salt_cannot_be_more_than_8_byte() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_salt_cannot_be_more_than_8_byte() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		EncryptedData ed2 = new EncryptedData(new byte[]{1,2,3,4,5,6,7,8,9}, ed.getIv(), ed.getEcyptedBytes(), ed.getEncryptorId());
@@ -114,7 +113,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test
-	public void testDecrypted_data_empty_encrypted_bytes_result_in_empty_string() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_empty_encrypted_bytes_result_in_empty_string() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		EncryptedData ed2 = new EncryptedData(ed.getSalt(), ed.getIv(), new byte[0], ed.getEncryptorId()); 
@@ -123,7 +122,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testDecrypted_data_null_encrypted_bytes_does_not_work() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_null_encrypted_bytes_does_not_work() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		EncryptedData ed2 = new EncryptedData(ed.getSalt(), ed.getIv(), null, ed.getEncryptorId()); 
@@ -132,7 +131,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testDecrypted_data_null_salt_does_not_work() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_null_salt_does_not_work() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		EncryptedData ed2 = new EncryptedData(null, ed.getIv(), ed.getEcyptedBytes(), ed.getEncryptorId());
@@ -142,7 +141,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=NullPointerException.class)
-	public void testDecrypted_data_null_iv_does_not_work() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_null_iv_does_not_work() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		EncryptedData ed2 = new EncryptedData(ed.getSalt(), null, ed.getEcyptedBytes(), ed.getEncryptorId()); 
@@ -151,7 +150,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testDecrypted_data_with_wrong_encryptor_does_not_work() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_with_wrong_encryptor_does_not_work() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		EncryptedData ed2 = new EncryptedData(ed.getSalt(), ed.getIv(), ed.getEcyptedBytes(), UUID.randomUUID()); 
@@ -159,7 +158,7 @@ public class AesPasswordEncypterTest {
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void testDecrypted_data_with_wrong_format_does_not_work() throws InvalidKeyException, InvalidAttributeValueException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
+	public void testDecrypted_data_with_wrong_format_does_not_work() throws InvalidKeyException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidParameterSpecException, IllegalBlockSizeException, BadPaddingException, UnsupportedEncodingException, InvalidKeySpecException, InvalidAlgorithmParameterException
 	{
 		EncryptedData ed = AesPasswordEncypter.Encrypt(simpleSecret, "asdf");
 		Map<String, String> map = new HashMap<String, String>();

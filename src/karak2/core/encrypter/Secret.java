@@ -9,31 +9,30 @@ import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
-import javax.management.InvalidAttributeValueException;
 
 public class Secret {
 	
 	private byte[] salt;
 	private SecretKey key;
 	
-	public static Secret CreateForNewEncryption(String password) throws InvalidAttributeValueException, NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException
+	public static Secret CreateForNewEncryption(String password) throws NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException
 	{
 		return new Secret(password);
 	}
 	
-	public static Secret CreateDecryption(String password, EncryptedData ed) throws InvalidAttributeValueException, NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException
+	public static Secret CreateDecryption(String password, EncryptedData ed) throws NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException
 	{
 		return new Secret(password, ed);
 	}
 	
-	private Secret (String password) throws NoSuchAlgorithmException, InvalidAttributeValueException, InvalidKeySpecException, IllegalArgumentException
+	private Secret (String password) throws NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException
 	{
 		this.salt = new byte[8];
 		SecureRandom.getInstanceStrong().nextBytes(salt);
 		this.key = GetSecret(password, salt);
 	}
 		
-	private Secret (String password, EncryptedData ed) throws NoSuchAlgorithmException, InvalidAttributeValueException, InvalidKeySpecException, IllegalArgumentException
+	private Secret (String password, EncryptedData ed) throws NoSuchAlgorithmException, InvalidKeySpecException, IllegalArgumentException
 	{
 		this.salt = ed.getSalt();
 		SecureRandom.getInstanceStrong().nextBytes(salt);
@@ -52,7 +51,7 @@ public class Secret {
 	
 	private static SecretKey GetSecret(String password, byte[] salt)
 			throws NoSuchAlgorithmException, InvalidKeySpecException,
-			InvalidAttributeValueException, IllegalArgumentException {
+			IllegalArgumentException {
 
 		char passwordCharArray[] = password.toCharArray();
 		if (salt.length != 8) {

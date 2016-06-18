@@ -13,15 +13,14 @@ import java.util.UUID;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.management.InvalidAttributeValueException;
 
 public class ConsoleEncrypter {
-	public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, InvalidAttributeValueException, InvalidParameterSpecException, UnsupportedEncodingException, InvalidAlgorithmParameterException
+	public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, InvalidKeySpecException, InvalidParameterSpecException, UnsupportedEncodingException, InvalidAlgorithmParameterException
 	{
 		//System.out.print("hoy");
 						
 		String password = "qwe123YXC++"; 
-		String message = "abcédééeffgéé így néz ki\n\n egy ABC! ŐŐÚÚŰŰÁ-.¤űá'§Mi a lóf¸s¨¨¨¨ẗ írok én itt??ÍÍ01232";
+		String message = "abcÃ©dÃ©Ã©effgÃ©Ã© Ã­gy nÃ©z ki\n\n egy ABC! Å�Å�ÃšÃšÅ°Å°Ã�-.Â¤Å±Ã¡'Â§Mi a lÃ³fÂ¸sÂ¨Â¨Â¨Â¨áº— Ã­rok Ã©n itt??Ã�Ã�01232";
 		
 		Secret secret = Secret.CreateForNewEncryption(password);
 		AesPasswordEncypter aes = new AesPasswordEncypter();
